@@ -1,4 +1,4 @@
-﻿import { router } from '@kit.ArkUI';
+import { router } from '@kit.ArkUI';
 import { AppViewModel } from '../viewmodel/AppViewModel';
 import {
   Rule,
@@ -382,6 +382,7 @@ struct RuleEdit {
       Row({ space: 7 }) {
         Select(this.sensorOptions())
           .selected(index === 1 ? this.sensorIndex1 : this.sensorIndex2)
+          .value(sensorLabel(this.sensorKeys[index === 1 ? this.sensorIndex1 : this.sensorIndex2]))
           .font({ size: 12 })
           .layoutWeight(1.1)
           .onSelect((selected: number) => {
@@ -393,6 +394,7 @@ struct RuleEdit {
           })
         Select(this.opOptions())
           .selected(index === 1 ? this.opIndex1 : this.opIndex2)
+          .value(COMPARE_OPS[index === 1 ? this.opIndex1 : this.opIndex2] as string)
           .font({ size: 12 })
           .layoutWeight(0.85)
           .onSelect((selected: number) => {
@@ -444,6 +446,7 @@ struct RuleEdit {
           Blank()
           Select(this.logicOptions())
             .selected(this.logicIndex)
+            .value(this.logicKeys[this.logicIndex] === LogicOp.AND ? '并且（AND）' : '或者（OR）')
             .font({ size: 11 })
             .onSelect((index: number) => {
               this.logicIndex = index;
@@ -494,11 +497,14 @@ struct RuleEdit {
       Row({ space: 7 }) {
         Select(this.deviceOptions())
           .selected(this.targetIndex)
+          .value(deviceLabel(this.currentTarget()))
           .font({ size: 12 })
           .layoutWeight(1)
           .onSelect((index: number) => this.onTargetChange(index))
         Select(this.commandOptions())
           .selected(this.commandIndex)
+          .value(this.currentCommand() === 'turnOn' ? '打开' :
+            (this.currentCommand() === 'turnOff' ? '关闭' : '调到指定档位'))
           .font({ size: 12 })
           .layoutWeight(1)
           .onSelect((index: number) => {

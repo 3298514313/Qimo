@@ -1,4 +1,4 @@
-import { AppViewModel } from '../viewmodel/AppViewModel';
+﻿import { AppViewModel } from '../viewmodel/AppViewModel';
 import {
   EnvSnapshot,
   DeviceState,
@@ -194,18 +194,15 @@ export struct EnvPanel {
   }
 
   @Builder
-  EnvSlider(label: string, value: number, unit: string, min: number, max: number,
-    step: number, color: string, field: string) {
+  TemperatureSlider() {
     Column({ space: 1 }) {
       Row() {
         Row({ space: 7 }) {
-          Circle({ width: 8, height: 8 }).fill(color)
-          Text(label)
-            .fontSize(13)
-            .fontColor(TEXT_SECONDARY)
+          Circle({ width: 8, height: 8 }).fill('#F79009')
+          Text('室内温度').fontSize(13).fontColor(TEXT_SECONDARY)
         }
         Blank()
-        Text(`${value}${unit}`)
+        Text(`${this.env.temperature}℃`)
           .fontSize(15)
           .fontWeight(FontWeight.Bold)
           .fontColor(TEXT)
@@ -213,17 +210,17 @@ export struct EnvPanel {
       .width('100%')
 
       Slider({
-        value: value,
-        min: min,
-        max: max,
-        step: step,
+        value: this.env.temperature,
+        min: 10,
+        max: 40,
+        step: 0.5,
         style: SliderStyle.OutSet
       })
-        .blockColor(color)
+        .blockColor('#F79009')
         .trackColor('#E8ECF4')
-        .selectedColor(color)
+        .selectedColor('#F79009')
         .onChange((next: number, mode: SliderChangeMode) => {
-          this.adjustEnv(field, next);
+          this.adjustEnv('temperature', next);
           if (mode === SliderChangeMode.End) {
             void this.vm.saveEnvironment();
           }
@@ -232,6 +229,77 @@ export struct EnvPanel {
     .width('100%')
   }
 
+  @Builder
+  HumiditySlider() {
+    Column({ space: 1 }) {
+      Row() {
+        Row({ space: 7 }) {
+          Circle({ width: 8, height: 8 }).fill(BRAND)
+          Text('空气湿度').fontSize(13).fontColor(TEXT_SECONDARY)
+        }
+        Blank()
+        Text(`${this.env.humidity}%`)
+          .fontSize(15)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(TEXT)
+      }
+      .width('100%')
+
+      Slider({
+        value: this.env.humidity,
+        min: 0,
+        max: 100,
+        step: 1,
+        style: SliderStyle.OutSet
+      })
+        .blockColor(BRAND)
+        .trackColor('#E8ECF4')
+        .selectedColor(BRAND)
+        .onChange((next: number, mode: SliderChangeMode) => {
+          this.adjustEnv('humidity', next);
+          if (mode === SliderChangeMode.End) {
+            void this.vm.saveEnvironment();
+          }
+        })
+    }
+    .width('100%')
+  }
+
+  @Builder
+  IlluminanceSlider() {
+    Column({ space: 1 }) {
+      Row() {
+        Row({ space: 7 }) {
+          Circle({ width: 8, height: 8 }).fill(PURPLE)
+          Text('环境光照').fontSize(13).fontColor(TEXT_SECONDARY)
+        }
+        Blank()
+        Text(`${this.env.illuminance}lx`)
+          .fontSize(15)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(TEXT)
+      }
+      .width('100%')
+
+      Slider({
+        value: this.env.illuminance,
+        min: 0,
+        max: 1000,
+        step: 10,
+        style: SliderStyle.OutSet
+      })
+        .blockColor(PURPLE)
+        .trackColor('#E8ECF4')
+        .selectedColor(PURPLE)
+        .onChange((next: number, mode: SliderChangeMode) => {
+          this.adjustEnv('illuminance', next);
+          if (mode === SliderChangeMode.End) {
+            void this.vm.saveEnvironment();
+          }
+        })
+    }
+    .width('100%')
+  }
   @Builder
   EnvCard() {
     Column({ space: 13 }) {
@@ -250,9 +318,9 @@ export struct EnvPanel {
       }
       .width('100%')
 
-      this.EnvSlider('室内温度', this.env.temperature, '℃', 10, 40, 0.5, '#F79009', 'temperature')
-      this.EnvSlider('空气湿度', this.env.humidity, '%', 0, 100, 1, BRAND, 'humidity')
-      this.EnvSlider('环境光照', this.env.illuminance, 'lx', 0, 1000, 10, PURPLE, 'illuminance')
+      this.TemperatureSlider()
+      this.HumiditySlider()
+      this.IlluminanceSlider()
 
       Row() {
         Column({ space: 2 }) {
