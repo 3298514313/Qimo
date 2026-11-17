@@ -1,4 +1,4 @@
-# 构建产物
+﻿# 构建产物
 build/
 oh_modules/
 **/oh_modules/
@@ -8,6 +8,7 @@ oh_modules/
 .hvigor/
 .verify/
 .preview/
+.test/
 
 # IDE
 .idea/
