@@ -1,4 +1,4 @@
-# 测试与构建证据
+﻿# 测试与构建证据
 
 > 记录时间：2026-11-17
 >
@@ -19,10 +19,10 @@ hvigorw assembleHap --mode module -p product=default -p module=entry@default -p 
 结果：
 
 ```text
-BUILD SUCCESSFUL in 6 s 392 ms
+BUILD SUCCESSFUL in 12 s 213 ms
 APP_EXIT=0
 
-entry-default-unsigned.hap    426537 bytes    2026-11-17 21:49:54
+entry-default-unsigned.hap    435654 bytes    2026-11-17 23:26:53
 ```
 
 ### 2. 测试 HAP
@@ -34,10 +34,10 @@ hvigorw assembleHap --mode module -p product=default -p module=entry@ohosTest -p
 结果：
 
 ```text
-BUILD SUCCESSFUL in 6 s 77 ms
+BUILD SUCCESSFUL in 11 s 598 ms
 TEST_EXIT=0
 
-entry-ohosTest-unsigned.hap    1320478 bytes    2026-11-17 21:50:01
+entry-ohosTest-unsigned.hap    1320478 bytes    2026-11-17 23:35:37
 ```
 
 说明：
