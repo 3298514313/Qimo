@@ -1,4 +1,4 @@
-﻿# 测试与构建证据
+# 测试与构建证据
 
 > 记录时间：2026-11-17
 >
@@ -98,19 +98,28 @@ RESULT: 17 passed, 0 failed, 17 total
 
 ## 四、设备端执行状态
 
-当前构建机没有可用的 HarmonyOS 模拟器/真机（`hdc list targets` 返回空），因此：
+已在 HarmonyOS 虚拟机（`hdc list targets`：`127.0.0.1:5555`）上安装测试 HAP 并执行 Hypium：
 
-- ✅ `entry@ohosTest` 已通过 ArkTS 编译并成功打包测试 HAP；
-- ✅ 规则引擎与校验的 17 条等价断言已在 Node.js 中真实执行通过；
-- ⏳ Hypium 在设备端的执行结果，需要在 DevEco Studio 连接模拟器/真机后运行 `List.test.ets` 并截图保存。
+```text
+OHOS_REPORT_RESULT: stream=Tests run: 17, Failure: 0, Error: 0, Pass: 17, Ignore: 0
+TestFinished-ResultCode: 0
+TestFinished-ResultMsg: your test finished!!!
+```
 
-设备端测试运行步骤：
+执行命令：
 
-1. DevEco Studio 打开工程，连接模拟器或真机；
-2. 右键 `entry/src/ohosTest/ets/test/List.test.ets` → Run；
-3. 在 Test 面板确认 17 条全部通过；
-4. 截图保存到 `docs/screenshots/`，建议命名 `test-report.png`；
-5. 在个人 Word 报告中附上测试入口、Mock 输入、预期结果和实际结果截图。
+```bash
+# 先安装测试 HAP
+hdc install -r entry/build/default/outputs/ohosTest/entry-ohosTest-unsigned.hap
+
+# 启动 Hypium 测试运行器
+hdc shell "aa test -b com.renshushan.dormlink -m entry_test \
+  -s unittest OpenHarmonyTestRunner -s timeout 60000 -w 60"
+```
+
+完整输出保存在 [`device-test-output.txt`](device-test-output.txt)。
+
+也可以在 DevEco Studio 中右键 `entry/src/ohosTest/ets/test/List.test.ets` → Run，在 Test 面板查看同样的 17 条结果。
 
 ## 五、持久化手工验收清单
 

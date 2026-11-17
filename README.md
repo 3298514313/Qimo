@@ -178,7 +178,7 @@ hvigorw assembleHap --mode module -p product=default -p module=entry@ohosTest -p
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-logic.ps1
 ```
 
-> 构建与纯逻辑验证结果见 [`docs/TEST_EVIDENCE.md`](docs/TEST_EVIDENCE.md)。Hypium 用例已经通过 ArkTS 编译；实际设备执行需要模拟器或真机。
+> 构建、Node 逻辑验证和设备端 Hypium 结果见 [`docs/TEST_EVIDENCE.md`](docs/TEST_EVIDENCE.md)。设备端已执行 `aa test`，结果 **17 条通过、0 失败**，原始输出在 [`docs/device-test-output.txt`](docs/device-test-output.txt)。
 
 ## 八、截图与录屏
 
