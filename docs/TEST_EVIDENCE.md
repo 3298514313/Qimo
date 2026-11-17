@@ -1,4 +1,4 @@
-﻿# 测试与构建证据
+# 测试与构建证据
 
 > 记录时间：2026-11-17
 >
@@ -45,6 +45,36 @@ entry-ohosTest-unsigned.hap    1320478 bytes    2026-11-17 23:35:37
 - 两个 HAP 均为未签名产物，用于验证 `CompileArkTS` 与 `PackageHap` 链路；
 - 真机/模拟器安装请在 DevEco Studio 中 Run 或配置自动签名；
 - 最终构建路径为 `D:\WangQiQimoDazy\DormLink`（ASCII），因为 hvigor 5.0 的项目路径校验不接受中文路径。
+
+### 3. 从 GitHub 全新克隆验证
+
+在另一目录执行：
+
+```bash
+git clone https://github.com/3298514313/Qimo.git DormLink_remote_check
+cd DormLink_remote_check
+ohpm install --all
+hvigorw assembleHap --mode module -p product=default -p module=entry@default -p buildMode=debug
+hvigorw assembleHap --mode module -p product=default -p module=entry@ohosTest -p buildMode=debug
+```
+
+结果：
+
+```text
+APP_BUILD_EXIT=0
+TEST_BUILD_EXIT=0
+entry-default-unsigned.hap     435654 bytes
+entry-ohosTest-unsigned.hap    1320478 bytes
+```
+
+克隆后的测试 HAP 再次安装到虚拟机执行：
+
+```text
+OHOS_REPORT_RESULT: stream=Tests run: 17, Failure: 0, Error: 0, Pass: 17, Ignore: 0
+TestFinished-ResultCode: 0
+```
+
+说明：仓库中的 `oh_modules/` 被 `.gitignore` 忽略，首次打开/克隆后需执行 `ohpm install` 或等待 DevEco Sync。
 
 ## 二、纯逻辑运行验证
 
